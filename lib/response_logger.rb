@@ -16,7 +16,7 @@ module ResponseLogger
           FileUtils.mkdir_p(file_path)
           res = original_request(req, body, &block)
           File.open(File.join(file_path, file), "w+") do |f|
-            @text = res.body 
+            f.write(res.body)
           end
         end
         @already_called = false

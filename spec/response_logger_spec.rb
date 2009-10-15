@@ -9,6 +9,10 @@ describe "ResponseLogger" do
     Dir["#{@path}/**/*"].select { |item| File.file?(item) }
   end
   
+  def response_check(logged_files, response)
+    File.read(logged_files.first).should(eql(response.body), "The logged file does not contain the same text as response body")
+  end
+  
   describe "Logging" do
     
     before do
@@ -32,11 +36,15 @@ describe "ResponseLogger" do
           http = Net::HTTP.new(url.host, 443)
           req = Net::HTTP::Get.new(url.path)
           http.use_ssl = true
+          
+          text = "Log in - GitHub"
+          
           response = http.request(req)
           response.class.should eql(Net::HTTPOK)
-          response.body.should include("Log in - GitHub")
+          
           logged_files.size.should eql(1)
           logged_files.detect { |file| /login\/\d+/.match(file) }.should_not be_nil
+          response_check(logged_files, response)
         end
         
         it "works without SSL" do
@@ -44,11 +52,15 @@ describe "ResponseLogger" do
           url = URI.parse('https://github.com/')
           http = Net::HTTP.new(url.host, 80)
           req = Net::HTTP::Get.new(url.path)
+          
+          text = "Secure source code hosting and collaborative development - GitHub"
+          
           response = http.request(req)
           response.class.should eql(Net::HTTPOK)
-          response.body.should include("Secure source code hosting and collaborative development - GitHub")
+          
           logged_files.size.should eql(1)
           logged_files.detect { |file| /github\.com\/\d+/.match(file) }.should_not be_nil
+          response_check(logged_files, response)
         end
       end
     end
