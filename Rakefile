@@ -5,11 +5,11 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "response_logger"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Logs responses of Net::HTTP requests}
+    gem.description = %Q{Logs responses of Net::HTTP requests}
     gem.email = "radarlistener@gmail.com"
     gem.homepage = "http://github.com/radar/response_logger"
-    gem.authors = ["Ryan Bigg"]
+    gem.authors = ["Ryan Bigg", "Bodaniel Jeanes"]
     gem.add_development_dependency "rspec"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
